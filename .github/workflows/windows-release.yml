@@ -1,0 +1,81 @@
+name: Windows x64 Release
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore XartZans-WinManager.sln
+
+      - name: Build
+        run: dotnet build XartZans-WinManager.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test XartZans-WinManager.sln --configuration Release --no-build
+
+      - name: Publish self-contained x64 app
+        run: >-
+          dotnet publish src/XartZans.WinManager.App/XartZans.WinManager.App.csproj
+          --configuration Release --runtime win-x64 --self-contained true
+          -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+          -p:EnableCompressionInSingleFile=true --output artifacts/publish/win-x64
+
+      - name: Install Inno Setup compiler
+        shell: pwsh
+        run: choco install innosetup --yes --no-progress
+
+      - name: Build downloadable installer
+        shell: pwsh
+        run: .\build-installer.ps1 -PublishDirectory "$env:GITHUB_WORKSPACE\artifacts\publish\win-x64"
+
+      - name: Upload application artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: XartZans-WinManager-win-x64
+          path: artifacts/publish/win-x64/
+          if-no-files-found: error
+
+      - name: Upload Setup installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: XartZans-WinManager-Setup
+          path: artifacts/installer/*.exe
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Setup installer
+        uses: actions/download-artifact@v4
+        with:
+          name: XartZans-WinManager-Setup
+          path: release-assets
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*.exe
+          generate_release_notes: true

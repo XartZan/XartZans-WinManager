@@ -1,0 +1,28 @@
+# Build output
+**/bin/
+**/obj/
+artifacts/
+publish/
+
+# IDE and user settings
+.vs/
+.vscode/*
+!.vscode/extensions.json
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.lnk
+
+# Test output
+TestResults/
+coverage/
+
+# Local logs and diagnostics
+*.log
+*.dmp
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store

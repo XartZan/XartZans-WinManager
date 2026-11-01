@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="ThemePaletteMarker" Color="Transparent" />
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#0B0E14" />
+    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#10141C" />
+    <SolidColorBrush x:Key="HeaderBrush" Color="#11151D" />
+    <SolidColorBrush x:Key="PanelBrush" Color="#151A23" />
+    <SolidColorBrush x:Key="PanelRaisedBrush" Color="#1B212D" />
+    <SolidColorBrush x:Key="PanelBorderBrush" Color="#272E3B" />
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F0F2F8" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#9BA4B5" />
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="#788396" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="#687385" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#A7AEFF" />
+    <SolidColorBrush x:Key="AccentMutedBrush" Color="#282A48" />
+    <SolidColorBrush x:Key="PositiveBrush" Color="#91E6B1" />
+    <SolidColorBrush x:Key="PositiveMutedBrush" Color="#18241F" />
+    <SolidColorBrush x:Key="PositiveBorderBrush" Color="#294132" />
+    <SolidColorBrush x:Key="WarningBrush" Color="#F2C27A" />
+    <SolidColorBrush x:Key="WarningMutedBrush" Color="#28231A" />
+    <SolidColorBrush x:Key="WarningBorderBrush" Color="#4A3A20" />
+    <SolidColorBrush x:Key="InfoBrush" Color="#8BCBF3" />
+    <SolidColorBrush x:Key="ProgressTrackBrush" Color="#2B303C" />
+    <SolidColorBrush x:Key="HoverBrush" Color="#222836" />
+    <SolidColorBrush x:Key="ControlHoverBrush" Color="#252B36" />
+    <SolidColorBrush x:Key="LogoForegroundBrush" Color="#10131A" />
+</ResourceDictionary>

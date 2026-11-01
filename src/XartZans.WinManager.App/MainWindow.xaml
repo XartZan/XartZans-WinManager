@@ -1,0 +1,189 @@
+<Window x:Class="XartZans.WinManager.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="{DynamicResource WindowTitle}"
+        Width="1440" Height="920" MinWidth="1020" MinHeight="700"
+        WindowStyle="None" ResizeMode="CanResize" Background="{DynamicResource WindowBackgroundBrush}"
+        UseLayoutRounding="True" SnapsToDevicePixels="True" FontFamily="Segoe UI"
+        Closed="Window_Closed" PreviewMouseDown="Window_PreviewMouseDown">
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="46" ResizeBorderThickness="6" GlassFrameThickness="0"
+                            CornerRadius="8" UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Border BorderBrush="{DynamicResource ControlHoverBrush}" BorderThickness="1" CornerRadius="8" Background="{DynamicResource WindowBackgroundBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="46" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="{DynamicResource HeaderBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,0,0">
+                    <Border Width="25" Height="25" CornerRadius="8" Background="{DynamicResource AccentBrush}" Margin="0,0,10,0">
+                        <TextBlock Text="W" Foreground="{DynamicResource LogoForegroundBrush}" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <TextBlock Text="{DynamicResource WindowTitle}" Foreground="{DynamicResource TextPrimaryBrush}"
+                               FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
+                    <Button x:Name="LanguageButton" Style="{StaticResource WindowControlButtonStyle}" Width="66" Height="28"
+                            shell:WindowChrome.IsHitTestVisibleInChrome="True" Click="LanguageButton_Click"
+                            Margin="0,0,8,0" ToolTip="{DynamicResource LanguageMenuTitle}"
+                            AutomationProperties.Name="{Binding SelectedLanguageName}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding SelectedLanguageLabel}" FontSize="10" FontWeight="Bold" VerticalAlignment="Center" />
+                            <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="8" Margin="6,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource WindowControlButtonStyle}" shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                            Click="Minimize_Click" Content="&#xE921;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
+                    <Button Style="{StaticResource WindowControlButtonStyle}" shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                            Click="Maximize_Click" Content="&#xE922;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
+                    <Button Style="{StaticResource WindowControlButtonStyle}" shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                            Click="Close_Click" Content="&#xE8BB;" FontFamily="Segoe MDL2 Assets" FontSize="10" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="{DynamicResource SidebarBackgroundBrush}" BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="0,0,1,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Margin="20,22,20,18">
+                            <TextBlock Text="XARTZAN'S" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10"
+                                       FontWeight="Bold" />
+                            <TextBlock Text="WinManager" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="23"
+                                       FontWeight="SemiBold" Margin="0,2,0,0" />
+                        </StackPanel>
+
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <ItemsControl ItemsSource="{Binding NavigationGroups}" Margin="12,0,12,12">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,12">
+                                            <TextBlock Text="{Binding Title}" Foreground="{DynamicResource TextMutedBrush}" FontSize="9" FontWeight="Bold"
+                                                       Margin="12,12,0,7" />
+                                            <ItemsControl ItemsSource="{Binding Items}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button Style="{StaticResource NavButtonStyle}"
+                                                                AutomationProperties.Name="{Binding Title}"
+                                                                Command="{Binding DataContext.SelectNavigationCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                                CommandParameter="{Binding}" Margin="0,1">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="23" />
+                                                                    <ColumnDefinition Width="*" />
+                                                                    <ColumnDefinition Width="Auto" />
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Text="{Binding Glyph}" FontFamily="Segoe MDL2 Assets" FontSize="15"
+                                                                           VerticalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
+                                                                <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="12" FontWeight="Medium"
+                                                                           VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                                                <TextBlock Grid.Column="2" Text="{Binding Status}" FontSize="9" VerticalAlignment="Center"
+                                                                           Foreground="{DynamicResource TextSecondaryBrush}" />
+                                                            </Grid>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+
+                        <Border Grid.Row="2" Margin="16,12,16,16" Padding="12" CornerRadius="10" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Ellipse Width="7" Height="7" Fill="{Binding Dashboard.MonitoringStatusBrush}" Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding Dashboard.MonitoringStatusText}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                               FontSize="10" FontWeight="SemiBold" />
+                                </StackPanel>
+                                <TextBlock Text="v0.1.0 · Windows x64" Foreground="{DynamicResource TextMutedBrush}" FontSize="9" Margin="15,7,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" />
+            </Grid>
+
+            <Popup x:Name="LanguagePopup" Placement="Bottom" StaysOpen="True" AllowsTransparency="True" PopupAnimation="None">
+                <Border x:Name="LanguageMenuCard" Width="48" Height="48" HorizontalAlignment="Right" ClipToBounds="True"
+                        Background="{DynamicResource PanelRaisedBrush}" BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1" CornerRadius="13"
+                        SizeChanged="LanguageMenuCard_SizeChanged">
+                    <Grid x:Name="LanguageMenuBody" Width="286" HorizontalAlignment="Right" Opacity="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Margin="17,15,17,9">
+                            <TextBlock Text="{DynamicResource LanguageMenuTitle}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="13" FontWeight="SemiBold" />
+                            <TextBlock Text="{DynamicResource LanguageFolderDescription}" Foreground="{DynamicResource TextSecondaryBrush}"
+                                       FontSize="9" TextWrapping="Wrap" Margin="0,4,0,0" />
+                        </StackPanel>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                      MaxHeight="300" Margin="8,0,8,7">
+                            <ItemsControl ItemsSource="{Binding Languages}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Style="{StaticResource LanguageOptionButtonStyle}" Height="42" Margin="0,2"
+                                                AutomationProperties.Name="{Binding Name}"
+                                                Click="LanguageOption_Click">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="37" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="20" />
+                                                </Grid.ColumnDefinitions>
+                                                <Border Width="29" Height="25" CornerRadius="6" Background="{DynamicResource ControlHoverBrush}" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding Code}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="9" FontWeight="Bold"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                </Border>
+                                                <TextBlock Grid.Column="1" Text="{Binding Name}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
+                                                           FontSize="11" FontWeight="Medium" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Grid.Column="2" Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="11"
+                                                           Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center" HorizontalAlignment="Right"
+                                                           Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            </Grid>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        <Border Grid.Row="2" BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="0,1,0,0" Padding="11,9,11,10">
+                            <Button Style="{StaticResource LanguageOptionButtonStyle}" Padding="8,6"
+                                    AutomationProperties.Name="{DynamicResource OpenLanguageFolder}"
+                                    Click="OpenLanguageFolder_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8B7;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                               Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{DynamicResource OpenLanguageFolder}" Foreground="{DynamicResource TextSecondaryBrush}"
+                                               FontSize="10" Margin="8,0,0,0" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </Button>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Popup>
+        </Grid>
+    </Border>
+</Window>

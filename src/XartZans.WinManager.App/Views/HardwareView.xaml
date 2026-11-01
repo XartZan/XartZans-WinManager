@@ -1,0 +1,278 @@
+<UserControl x:Class="XartZans.WinManager.App.Views.HardwareView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False">
+        <StackPanel Margin="30,25,30,30">
+            <Grid Margin="0,0,0,17">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{DynamicResource HardwareTitle}" Foreground="{DynamicResource TextPrimaryBrush}"
+                               FontSize="27" FontWeight="SemiBold" />
+                    <TextBlock Text="{DynamicResource HardwareDescription}" Foreground="{DynamicResource TextSecondaryBrush}"
+                               FontSize="11" TextWrapping="Wrap" Margin="1,5,12,0" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Padding="13,9" Background="{DynamicResource AccentMutedBrush}"
+                            Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" Cursor="Hand"
+                            Command="{Binding ExportReportCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                       Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource ReportExport}" FontSize="10" FontWeight="SemiBold"
+                                       Margin="8,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="8,0,0,0" VerticalAlignment="Center" Padding="13,9" Background="{DynamicResource AccentMutedBrush}"
+                            Foreground="{DynamicResource TextPrimaryBrush}" BorderThickness="0" Cursor="Hand"
+                            Command="{Binding RefreshCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                       Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource HardwareRefresh}" FontSize="10" FontWeight="SemiBold"
+                                       Margin="8,0,0,0" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Border Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1"
+                    CornerRadius="10" Padding="13,10" Margin="0,0,0,15">
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="7" Height="7" Fill="{DynamicResource AccentBrush}" Margin="0,0,9,0" />
+                    <TextBlock Text="{Binding ScanStatusText}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="{Binding ReportStatusText}" Foreground="{DynamicResource AccentBrush}" FontSize="10"
+                       Margin="2,0,0,12" TextWrapping="Wrap"
+                       Visibility="{Binding HasReportStatus, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+            <Border Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1"
+                    CornerRadius="12" Padding="20" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel>
+                    <ProgressBar Height="3" IsIndeterminate="True" Foreground="{DynamicResource AccentBrush}"
+                                 Background="{DynamicResource ProgressTrackBrush}" BorderThickness="0" />
+                    <TextBlock Text="{DynamicResource HardwareLoading}" Foreground="{DynamicResource TextSecondaryBrush}"
+                               FontSize="11" Margin="0,12,0,0" />
+                </StackPanel>
+            </Border>
+
+            <StackPanel Visibility="{Binding ShowLoadedContent, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Border Background="{DynamicResource WarningMutedBrush}" BorderBrush="{DynamicResource WarningBorderBrush}" BorderThickness="1" CornerRadius="10"
+                        Padding="12" Margin="0,0,0,15"
+                        Visibility="{Binding IsWmiUnavailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="{Binding WmiUnavailableMessage}" Foreground="{DynamicResource WarningBrush}"
+                               FontSize="10" TextWrapping="Wrap" />
+                </Border>
+
+                <UniformGrid Columns="3" Margin="-5,0,-5,15">
+                    <Border Margin="5" Padding="16" CornerRadius="12" Background="{DynamicResource PanelBrush}"
+                            BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1" MinHeight="162">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <TextBlock Text="&#xE950;" FontFamily="Segoe MDL2 Assets" Foreground="{DynamicResource AccentBrush}" FontSize="13" />
+                                <TextBlock Text="{DynamicResource HardwareProcessor}" Foreground="{DynamicResource TextSecondaryBrush}"
+                                           FontSize="10" Margin="8,0,0,0" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding ProcessorNameText}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13"
+                                       FontWeight="SemiBold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{Binding ProcessorDetailsText}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="9"
+                                       TextWrapping="Wrap" Margin="0,10,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="5" Padding="16" CornerRadius="12" Background="{DynamicResource PanelBrush}"
+                            BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1" MinHeight="162">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,11">
+                                <TextBlock Text="&#xE950;" FontFamily="Segoe MDL2 Assets" Foreground="{DynamicResource AccentBrush}" FontSize="13" />
+                                <TextBlock Text="{DynamicResource HardwareGraphics}" Foreground="{DynamicResource TextSecondaryBrush}"
+                                           FontSize="10" Margin="8,0,0,0" />
+                            </StackPanel>
+                            <ItemsControl ItemsSource="{Binding GraphicsAdapters}"
+                                          Visibility="{Binding HasGraphicsAdapters, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,8">
+                                            <TextBlock Text="{Binding Name}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="11"
+                                                       FontWeight="SemiBold" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" />
+                                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                <TextBlock Text="{DynamicResource GpuDriverVersion}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="9" />
+                                                <TextBlock Text=":" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="9" />
+                                                <TextBlock Text="{Binding DriverVersion}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="9" Margin="4,0,0,0" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock Text="{DynamicResource NoGraphicsAdapters}" Foreground="{DynamicResource TextSecondaryBrush}"
+                                       FontSize="10" TextWrapping="Wrap"
+                                       Visibility="{Binding NoGraphicsAdapters, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <TextBlock Text="{Binding GraphicsUsageStatus}" Foreground="{DynamicResource WarningBrush}" FontSize="9"
+                                       TextWrapping="Wrap" Margin="0,7,0,0" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Margin="5" Padding="16" CornerRadius="12" Background="{DynamicResource PanelBrush}"
+                            BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1" MinHeight="162">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <TextBlock Text="&#xE964;" FontFamily="Segoe MDL2 Assets" Foreground="{DynamicResource InfoBrush}" FontSize="13" />
+                                <TextBlock Text="{DynamicResource HardwareMemory}" Foreground="{DynamicResource TextSecondaryBrush}"
+                                           FontSize="10" Margin="8,0,0,0" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding MemorySummaryText}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="13"
+                                       FontWeight="SemiBold" TextWrapping="Wrap" />
+                            <TextBlock Text="{DynamicResource MemoryConfiguredSpeed}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9"
+                                       Margin="0,12,0,0" />
+                            <TextBlock Text="{Binding MemorySpeedSummaryText}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="10" Margin="0,4,0,0" TextWrapping="Wrap" />
+                            <TextBlock Text="{DynamicResource HardwareSensorsNote}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="9"
+                                       TextWrapping="Wrap" Margin="0,5,0,0" />
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Margin="0,0,7,0" Padding="17" CornerRadius="12" Background="{DynamicResource PanelBrush}"
+                            BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1" MinHeight="198">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource HardwareMotherboard}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="12" FontWeight="SemiBold" Margin="0,0,0,15" />
+                            <TextBlock Text="{DynamicResource BoardManufacturer}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Text="{Binding MotherboardManufacturerText}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="10" Margin="0,4,0,9" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{DynamicResource BoardProduct}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Text="{Binding MotherboardProductText}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="10" Margin="0,4,0,9" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{DynamicResource BoardVersion}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Text="{Binding MotherboardVersionText}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="10" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Column="1" Margin="7,0,0,0" Padding="17" CornerRadius="12" Background="{DynamicResource PanelBrush}"
+                            BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1" MinHeight="198">
+                        <StackPanel>
+                            <TextBlock Text="{DynamicResource HardwareBios}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="12" FontWeight="SemiBold" Margin="0,0,0,15" />
+                            <TextBlock Text="{DynamicResource BiosManufacturer}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Text="{Binding BiosManufacturerText}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="10" Margin="0,4,0,9" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{DynamicResource BiosVersion}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Text="{Binding BiosVersionText}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="10" Margin="0,4,0,9" TextTrimming="CharacterEllipsis" />
+                            <TextBlock Text="{DynamicResource BiosDate}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Text="{Binding BiosDateText}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                       FontSize="10" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <Border Padding="17" CornerRadius="12" Background="{DynamicResource PanelBrush}"
+                        BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource OperatingSystem}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                   FontSize="12" FontWeight="SemiBold" Margin="0,0,0,13" />
+                        <Grid>
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="1.2*" /><ColumnDefinition Width="1.2*" /><ColumnDefinition Width="0.9*" /><ColumnDefinition Width="0.8*" /></Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                                <TextBlock Text="{DynamicResource OperatingSystem}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                                <TextBlock Text="{Binding OperatingSystemText}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10"
+                                           FontWeight="Medium" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="8,0,12,0">
+                                <TextBlock Text="{DynamicResource OperatingSystemBuild}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                                <TextBlock Text="{Binding OperatingSystemDetailsText}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10"
+                                           FontWeight="Medium" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Margin="8,0,12,0">
+                                <TextBlock Text="{DynamicResource OperatingSystemReleaseDate}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                                <TextBlock Text="{Binding OperatingSystemReleaseDateText}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10"
+                                           FontWeight="Medium" Margin="0,4,0,0" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="3" MinWidth="90">
+                                <TextBlock Text="{DynamicResource HardwareArchitecture}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                                <TextBlock Text="{Binding ArchitectureText}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10"
+                                           FontWeight="Medium" Margin="0,4,0,0" />
+                            </StackPanel>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <TextBlock Text="{DynamicResource ComputerModel}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Text="{Binding ComputerModelText}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="9" Margin="8,0,0,0"
+                                       TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Padding="17" CornerRadius="12" Background="{DynamicResource PanelBrush}"
+                        BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource HardwareMemory}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                   FontSize="12" FontWeight="SemiBold" Margin="0,0,0,12" />
+                        <Grid Margin="8,0,8,4">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="0.8*" /><ColumnDefinition Width="1.6*" /><ColumnDefinition Width="0.75*" /><ColumnDefinition Width="0.9*" /><ColumnDefinition Width="0.95*" /></Grid.ColumnDefinitions>
+                            <TextBlock Text="{DynamicResource MemoryLocation}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Grid.Column="1" Text="{DynamicResource MemoryModuleModel}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Grid.Column="2" Text="{DynamicResource MemoryCapacity}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Grid.Column="3" Text="{DynamicResource MemoryMaxSpeed}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Grid.Column="4" Text="{DynamicResource MemoryConfiguredSpeed}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding MemoryModules}"
+                                      Visibility="{Binding HasMemoryModules, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="8,7">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="0.8*" /><ColumnDefinition Width="1.6*" /><ColumnDefinition Width="0.75*" /><ColumnDefinition Width="0.9*" /><ColumnDefinition Width="0.95*" /></Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Location}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Model}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Grid.Column="2" Text="{Binding Capacity}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10" />
+                                        <TextBlock Grid.Column="3" Text="{Binding SmbiosMaximumSpeed}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10" />
+                                        <TextBlock Grid.Column="4" Text="{Binding ConfiguredSpeed}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="{DynamicResource NoMemoryModules}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10"
+                                   Visibility="{Binding NoMemoryModules, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock Text="{DynamicResource MemoryMaxSpeedNote}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="9" TextWrapping="Wrap"
+                                   Margin="8,10,8,0" />
+                    </StackPanel>
+                </Border>
+
+                <Border Padding="17" CornerRadius="12" Background="{DynamicResource PanelBrush}"
+                        BorderBrush="{DynamicResource PanelBorderBrush}" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="{DynamicResource HardwareDisks}" Foreground="{DynamicResource TextPrimaryBrush}"
+                                   FontSize="12" FontWeight="SemiBold" Margin="0,0,0,12" />
+                        <Grid Margin="8,0,8,4">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="1.5*" /><ColumnDefinition Width="0.8*" /><ColumnDefinition Width="0.8*" /><ColumnDefinition Width="0.8*" /></Grid.ColumnDefinitions>
+                            <TextBlock Text="{DynamicResource DiskModel}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Grid.Column="1" Text="{DynamicResource DiskSize}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Grid.Column="2" Text="{DynamicResource DiskInterface}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                            <TextBlock Grid.Column="3" Text="{DynamicResource DiskStatus}" Foreground="{DynamicResource TextTertiaryBrush}" FontSize="9" />
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding PhysicalDisks}"
+                                      Visibility="{Binding HasPhysicalDisks, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="8,7">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="1.5*" /><ColumnDefinition Width="0.8*" /><ColumnDefinition Width="0.8*" /><ColumnDefinition Width="0.8*" /></Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Model}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Grid.Column="1" Text="{Binding Capacity}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10" />
+                                        <TextBlock Grid.Column="2" Text="{Binding InterfaceType}" Foreground="{DynamicResource TextPrimaryBrush}" FontSize="10" />
+                                        <TextBlock Grid.Column="3" Text="{Binding WindowsWmiStatus}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock Text="{DynamicResource NoPhysicalDisks}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="10"
+                                   Visibility="{Binding NoPhysicalDisks, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <TextBlock Text="{DynamicResource DiskWmiNote}" Foreground="{DynamicResource TextSecondaryBrush}" FontSize="9" TextWrapping="Wrap"
+                                   Margin="8,10,8,0" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
