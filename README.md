@@ -41,7 +41,7 @@ altında saklar. EXE, .NET çalışma zamanını içerir.
 
 ## Kullanıcı için kolay kurulum
 
-GitHub Releases sayfasından `XartZans-WinManager-Setup-0.1.0.exe` dosyasını indirip
+GitHub Releases sayfasından [XartZans-WinManager-Setup-0.1.0.exe](https://github.com/XartZan/XartZans-WinManager/releases/latest) dosyasını indirip
 çalıştırın. Kurulum yönetici izni istemeden uygulamayı kullanıcı profilinize kurar,
 Masaüstü ve Başlat menüsü kısayollarını oluşturur. Kurulum bittiğinde uygulamayı
 hemen açabilirsiniz. Uygulamayı daha sonra Windows **Ayarlar > Uygulamalar**
